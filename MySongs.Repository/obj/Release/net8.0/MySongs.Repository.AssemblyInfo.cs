@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MySongs.Repository")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5c88aef4ced6e9d2f66b06a71ab312e775e70837")]
 [assembly: System.Reflection.AssemblyProductAttribute("MySongs.Repository")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MySongs.Repository")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
