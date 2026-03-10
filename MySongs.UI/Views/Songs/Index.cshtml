@@ -1,5 +1,4 @@
-﻿@model IEnumerable<MySongs.Repository.Entities.Songs>
-
+﻿@model IEnumerable<MySongs.Common.DTOs.SongDto>
 @{
     ViewData["Title"] = "Index";
 }
@@ -55,9 +54,9 @@
                 @Html.DisplayFor(modelItem => item.LyricsSummary)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                    @Html.ActionLink("Edit", "Edit", new { id = item.SongId }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.SongId }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.SongId })
             </td>
         </tr>
 }

@@ -1491,6 +1491,16 @@
             "rid": "win"
           }
         }
+      },
+      "MySongs.Common/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "compile": {
+          "bin/placeholder/MySongs.Common.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/MySongs.Common.dll": {}
+        }
       }
     }
   },
@@ -3993,6 +4003,11 @@
         "system.windows.extensions.nuspec",
         "useSharedDesignerContext.txt"
       ]
+    },
+    "MySongs.Common/1.0.0": {
+      "type": "project",
+      "path": "../MySongs.Common/MySongs.Common.csproj",
+      "msbuildProject": "../MySongs.Common/MySongs.Common.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -4000,7 +4015,8 @@
       "Microsoft.EntityFrameworkCore >= 8.0.24",
       "Microsoft.EntityFrameworkCore.Abstractions >= 8.0.24",
       "Microsoft.EntityFrameworkCore.SqlServer >= 8.0.24",
-      "Microsoft.EntityFrameworkCore.Tools >= 8.0.24"
+      "Microsoft.EntityFrameworkCore.Tools >= 8.0.24",
+      "MySongs.Common >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -4010,11 +4026,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\user1\\Desktop\\עניין משפחתי\\ConsoleApp1\\MySongsProject\\MySongs.Repository\\MySongs.Repository.csproj",
+      "projectUniqueName": "C:\\Users\\user1\\Desktop\\הפרוייקטט שליייי\\MySongs.Repository\\MySongs.Repository.csproj",
       "projectName": "MySongs.Repository",
-      "projectPath": "C:\\Users\\user1\\Desktop\\עניין משפחתי\\ConsoleApp1\\MySongsProject\\MySongs.Repository\\MySongs.Repository.csproj",
+      "projectPath": "C:\\Users\\user1\\Desktop\\הפרוייקטט שליייי\\MySongs.Repository\\MySongs.Repository.csproj",
       "packagesPath": "C:\\Users\\user1\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\user1\\Desktop\\עניין משפחתי\\ConsoleApp1\\MySongsProject\\MySongs.Repository\\obj\\",
+      "outputPath": "C:\\Users\\user1\\Desktop\\הפרוייקטט שליייי\\MySongs.Repository\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -4035,7 +4051,11 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\user1\\Desktop\\הפרוייקטט שליייי\\MySongs.Common\\MySongs.Common.csproj": {
+              "projectPath": "C:\\Users\\user1\\Desktop\\הפרוייקטט שליייי\\MySongs.Common\\MySongs.Common.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
@@ -4047,7 +4067,8 @@
         "enableAudit": "true",
         "auditLevel": "low",
         "auditMode": "direct"
-      }
+      },
+      "SdkAnalysisLevel": "9.0.300"
     },
     "frameworks": {
       "net8.0": {
@@ -4088,7 +4109,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.302/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.311/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

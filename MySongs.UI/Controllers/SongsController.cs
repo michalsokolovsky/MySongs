@@ -1,30 +1,59 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MySongs.Repository;
-using MySongs.Repository.Interfaces; // חיבור לממשק
-using MySongs.Repository.Repositories; // חיבור למימוש
+using MySongs.Services.Interfaces;
+using MySongs.Common.DTOs;
 
 namespace MySongs.UI.Controllers
 {
     public class SongsController : Controller
     {
-        // יצירת משתנה שיחזיק את ה-Repository
-        private readonly ISongRepository _songRepository;
+        private readonly ISongService _songService;
 
-        // "בנאי" (Constructor) - כאן ה-Controller מקבל את ה-Repository
-        public SongsController()
+        public SongsController(ISongService songService)
         {
-            // הערה: בהמשך נלמד איך המחשב מזריק את זה אוטומטית, 
-            // כרגע ניצור מופע חדש ידנית כדי שתוכלי להריץ.
-            _songRepository = new SongRepository();
+            _songService = songService;
         }
 
         public IActionResult Index()
         {
-            // קריאה לפונקציה שיצרת ב-Repository!
-            var songs = _songRepository.GetAll();
-
-            // שליחת רשימת השירים לתצוגה (View)
+            var songs = _songService.GetAll();
             return View(songs);
+        }
+
+        public IActionResult Details(int id)
+        {
+            var song = _songService.GetById(id);
+            return View(song);
+        }
+
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Create(SongDto song)
+        {
+            _songService.Add(song);
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult Edit(int id)
+        {
+            var song = _songService.GetById(id);
+            return View(song);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(SongDto song)
+        {
+            _songService.Update(song);
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult Delete(int id)
+        {
+            _songService.Delete(id);
+            return RedirectToAction("Index");
         }
     }
 }

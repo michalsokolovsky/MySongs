@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MySongs.UI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5c88aef4ced6e9d2f66b06a71ab312e775e70837")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ef53f4170fa68fc6af9ff52baff9b201313d8e33")]
 [assembly: System.Reflection.AssemblyProductAttribute("MySongs.UI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MySongs.UI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

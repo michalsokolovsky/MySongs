@@ -2589,19 +2589,59 @@
           "lib/netcoreapp2.1/_._": {}
         }
       },
+      "MySongs.Common/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "compile": {
+          "bin/placeholder/MySongs.Common.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/MySongs.Common.dll": {}
+        }
+      },
+      "MySongs.Mock/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore.SqlServer": "8.0.24",
+          "MySongs.Common": "1.0.0",
+          "MySongs.Repository": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/MySongs.Mock.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/MySongs.Mock.dll": {}
+        }
+      },
       "MySongs.Repository/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v8.0",
         "dependencies": {
           "Microsoft.EntityFrameworkCore": "8.0.24",
           "Microsoft.EntityFrameworkCore.Abstractions": "8.0.24",
-          "Microsoft.EntityFrameworkCore.SqlServer": "8.0.24"
+          "Microsoft.EntityFrameworkCore.SqlServer": "8.0.24",
+          "MySongs.Common": "1.0.0"
         },
         "compile": {
           "bin/placeholder/MySongs.Repository.dll": {}
         },
         "runtime": {
           "bin/placeholder/MySongs.Repository.dll": {}
+        }
+      },
+      "MySongs.Services/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "MySongs.Common": "1.0.0",
+          "MySongs.Repository": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/MySongs.Services.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/MySongs.Services.dll": {}
         }
       }
     }
@@ -7314,17 +7354,35 @@
         "version.txt"
       ]
     },
+    "MySongs.Common/1.0.0": {
+      "type": "project",
+      "path": "../MySongs.Common/MySongs.Common.csproj",
+      "msbuildProject": "../MySongs.Common/MySongs.Common.csproj"
+    },
+    "MySongs.Mock/1.0.0": {
+      "type": "project",
+      "path": "../MySongs.Mock/MySongs.Mock.csproj",
+      "msbuildProject": "../MySongs.Mock/MySongs.Mock.csproj"
+    },
     "MySongs.Repository/1.0.0": {
       "type": "project",
-      "path": "../../עניין משפחתי/ConsoleApp1/MySongsProject/MySongs.Repository/MySongs.Repository.csproj",
-      "msbuildProject": "../../עניין משפחתי/ConsoleApp1/MySongsProject/MySongs.Repository/MySongs.Repository.csproj"
+      "path": "../MySongs.Repository/MySongs.Repository.csproj",
+      "msbuildProject": "../MySongs.Repository/MySongs.Repository.csproj"
+    },
+    "MySongs.Services/1.0.0": {
+      "type": "project",
+      "path": "../MySongs.Services/MySongs.Services.csproj",
+      "msbuildProject": "../MySongs.Services/MySongs.Services.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net8.0": [
       "Microsoft.EntityFrameworkCore.SqlServer >= 8.0.24",
       "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 8.0.23",
-      "MySongs.Repository >= 1.0.0"
+      "MySongs.Common >= 1.0.0",
+      "MySongs.Mock >= 1.0.0",
+      "MySongs.Repository >= 1.0.0",
+      "MySongs.Services >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -7360,8 +7418,17 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\Users\\user1\\Desktop\\עניין משפחתי\\ConsoleApp1\\MySongsProject\\MySongs.Repository\\MySongs.Repository.csproj": {
-              "projectPath": "C:\\Users\\user1\\Desktop\\עניין משפחתי\\ConsoleApp1\\MySongsProject\\MySongs.Repository\\MySongs.Repository.csproj"
+            "C:\\Users\\user1\\Desktop\\הפרוייקטט שליייי\\MySongs.Common\\MySongs.Common.csproj": {
+              "projectPath": "C:\\Users\\user1\\Desktop\\הפרוייקטט שליייי\\MySongs.Common\\MySongs.Common.csproj"
+            },
+            "C:\\Users\\user1\\Desktop\\הפרוייקטט שליייי\\MySongs.Mock\\MySongs.Mock.csproj": {
+              "projectPath": "C:\\Users\\user1\\Desktop\\הפרוייקטט שליייי\\MySongs.Mock\\MySongs.Mock.csproj"
+            },
+            "C:\\Users\\user1\\Desktop\\הפרוייקטט שליייי\\MySongs.Repository\\MySongs.Repository.csproj": {
+              "projectPath": "C:\\Users\\user1\\Desktop\\הפרוייקטט שליייי\\MySongs.Repository\\MySongs.Repository.csproj"
+            },
+            "C:\\Users\\user1\\Desktop\\הפרוייקטט שליייי\\MySongs.Services\\MySongs.Services.csproj": {
+              "projectPath": "C:\\Users\\user1\\Desktop\\הפרוייקטט שליייי\\MySongs.Services\\MySongs.Services.csproj"
             }
           }
         }
@@ -7375,7 +7442,8 @@
         "enableAudit": "true",
         "auditLevel": "low",
         "auditMode": "direct"
-      }
+      },
+      "SdkAnalysisLevel": "9.0.300"
     },
     "frameworks": {
       "net8.0": {
@@ -7409,7 +7477,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.302/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.311/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

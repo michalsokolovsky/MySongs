@@ -1,0 +1,23 @@
+﻿@model IEnumerable<MySongs.Common.DTOs.TagDto>
+@{
+    ViewData["Title"] = "Tags";
+}
+<h1>Tags</h1>
+<p><a asp-action="Create">Create New</a></p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>TagId</th>
+            <th>TagName</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.TagId</td>
+                <td>@item.TagName</td>
+            </tr>
+        }
+    </tbody>
+</table>
