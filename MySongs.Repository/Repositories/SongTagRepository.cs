@@ -1,7 +1,6 @@
-﻿using MySongs.Repository.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using MySongs.Repository.Entities;
 using MySongs.Repository.Interfaces;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace MySongs.Repository.Repositories
 {
@@ -14,27 +13,27 @@ namespace MySongs.Repository.Repositories
             _context = context;
         }
 
-        public List<SongTag> GetTagsBySongId(int songId)
+        public async Task<List<SongTag>> GetTagsBySongId(int songId)
         {
-            return _context.SongTags
+            return await _context.SongTags
                 .Where(st => st.SongId == songId)
-                .ToList();
+                .ToListAsync();
         }
 
-        public void Add(SongTag songTag)
+        public async Task Add(SongTag songTag)
         {
             _context.SongTags.Add(songTag);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public void Delete(int songId, int tagId)
+        public async Task Delete(int songId, int tagId)
         {
-            var songTag = _context.SongTags
-                .FirstOrDefault(st => st.SongId == songId && st.TagId == tagId);
+            var songTag = await _context.SongTags
+                .FirstOrDefaultAsync(st => st.SongId == songId && st.TagId == tagId);
             if (songTag != null)
             {
                 _context.SongTags.Remove(songTag);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
         }
     }

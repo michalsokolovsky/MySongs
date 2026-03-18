@@ -9,6 +9,7 @@ C:\Users\user1\Downloads\MySongs-updated\MySongs-master\MySongs.Repository\obj\D
 C:\Users\user1\Downloads\MySongs-updated\MySongs-master\MySongs.Repository\obj\Debug\net8.0\MySongs.Repository.AssemblyInfoInputs.cache
 C:\Users\user1\Downloads\MySongs-updated\MySongs-master\MySongs.Repository\obj\Debug\net8.0\MySongs.Repository.AssemblyInfo.cs
 C:\Users\user1\Downloads\MySongs-updated\MySongs-master\MySongs.Repository\obj\Debug\net8.0\MySongs.Repository.csproj.CoreCompileInputs.cache
+C:\Users\user1\Downloads\MySongs-updated\MySongs-master\MySongs.Repository\obj\Debug\net8.0\MySongs.Repository.sourcelink.json
 C:\Users\user1\Downloads\MySongs-updated\MySongs-master\MySongs.Repository\obj\Debug\net8.0\MySongs..42BEE3DD.Up2Date
 C:\Users\user1\Downloads\MySongs-updated\MySongs-master\MySongs.Repository\obj\Debug\net8.0\MySongs.Repository.dll
 C:\Users\user1\Downloads\MySongs-updated\MySongs-master\MySongs.Repository\obj\Debug\net8.0\refint\MySongs.Repository.dll

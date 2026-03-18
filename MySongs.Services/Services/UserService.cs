@@ -1,70 +1,49 @@
-﻿using MySongs.Common.DTOs;
-using MySongs.Repository.Interfaces;
+﻿using AutoMapper;
+using MySongs.Common.DTOs;
 using MySongs.Repository.Entities;
+using MySongs.Repository.Interfaces;
 using MySongs.Services.Interfaces;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace MySongs.Services.Services
 {
     public class UserService : IUserService
     {
         private readonly IUserRepository _repository;
+        private readonly IMapper _mapper;
 
-        public UserService(IUserRepository repository)
+        public UserService(IUserRepository repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
 
-        public List<UserDto> GetAll()
+        public async Task<List<UserDto>> GetAll()
         {
-            return _repository.GetAll()
-                .Select(u => new UserDto
-                {
-                    UserId = u.UserId,
-                    Username = u.Username,
-                    Email = u.Email,
-                    CreatedAt = u.CreatedAt
-                }).ToList();
+            return _mapper.Map<List<UserDto>>(await _repository.GetAll());
         }
 
-        public UserDto GetById(int id)
+        public async Task<UserDto> GetById(int id)
         {
-            var u = _repository.GetById(id);
-            if (u == null) return null;
-            return new UserDto
-            {
-                UserId = u.UserId,
-                Username = u.Username,
-                Email = u.Email,
-                CreatedAt = u.CreatedAt
-            };
+            var user = await _repository.GetById(id);
+            if (user == null) return null;
+            return _mapper.Map<UserDto>(user);
         }
 
-        public void Add(UserDto user)
+        public async Task Add(UserDto user)
         {
-            _repository.Add(new Users
-            {
-                Username = user.Username,
-                Email = user.Email,
-                CreatedAt = user.CreatedAt
-            });
+            var entity = _mapper.Map<Users>(user);
+            entity.CreatedAt = DateTime.Now;
+            await _repository.Add(entity);
         }
 
-        public void Update(UserDto user)
+        public async Task Update(UserDto user)
         {
-            _repository.Update(new Users
-            {
-                UserId = user.UserId,
-                Username = user.Username,
-                Email = user.Email,
-                CreatedAt = user.CreatedAt
-            });
+            await _repository.Update(_mapper.Map<Users>(user));
         }
 
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
-            _repository.Delete(id);
+            await _repository.Delete(id);
         }
     }
 }

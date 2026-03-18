@@ -12,5 +12,6 @@ namespace MySongs.Repository.Interfaces
         DbSet<Recommendation> Recommendations { get; set; }
         DbSet<ListeningHistory> ListeningHistorys { get; set; }
         int SaveChanges();
+        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }
 }

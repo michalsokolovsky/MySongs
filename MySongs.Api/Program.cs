@@ -15,6 +15,10 @@ builder.Services.AddDbContext<MySongsDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddHttpClient();
+builder.Services.AddScoped<IAIService>(sp =>
+    new AIService(builder.Configuration["OpenAI:ApiKey"]!));
+builder.Services.AddAutoMapper(typeof(MySongs.Services.MappingProfile));
+
 
 // Repositories
 builder.Services.AddScoped<ISongRepository, SongRepository>();
@@ -31,8 +35,14 @@ builder.Services.AddScoped<ITagService, TagService>();
 builder.Services.AddScoped<ISongTagService, SongTagService>();
 builder.Services.AddScoped<IRecommendationService, RecommendationService>();
 builder.Services.AddScoped<IListeningHistoryService, ListeningHistoryService>();
-builder.Services.AddScoped<RecommendationEngineService>();
-
+builder.Services.AddScoped<RecommendationEngineService>(sp =>
+    new RecommendationEngineService(
+        sp.GetRequiredService<IUserService>(),
+        sp.GetRequiredService<ISongService>(),
+        sp.GetRequiredService<IRecommendationService>(),
+        sp.GetRequiredService<IListeningHistoryService>(),
+        sp.GetRequiredService<IConfiguration>()
+    ));
 builder.Services.AddScoped<IContext, MySongsDbContext>();
 
 // JWT
@@ -55,15 +65,13 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReact", policy =>
-        policy.WithOrigins("http://localhost:3000")
+        policy.AllowAnyOrigin()
               .AllowAnyHeader()
               .AllowAnyMethod());
 });
-
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -72,9 +80,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseCors("AllowReact");
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+app.UseCors("AllowReact");
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();

@@ -1,14 +1,13 @@
 ﻿using MySongs.Repository.Entities;
-using System.Collections.Generic;
 
 namespace MySongs.Repository.Interfaces
 {
     public interface IUserRepository
     {
-        List<Users> GetAll();
-        Users GetById(int id);
-        void Add(Users user);
-        void Update(Users user);
-        void Delete(int id);
+        Task<List<Users>> GetAll();
+        Task<Users> GetById(int id);
+        Task Add(Users user);
+        Task Update(Users user);
+        Task Delete(int id);
     }
 }

@@ -1,41 +1,35 @@
+using AutoMapper;
 using MySongs.Common.DTOs;
-using MySongs.Repository.Interfaces;
 using MySongs.Repository.Entities;
+using MySongs.Repository.Interfaces;
 using MySongs.Services.Interfaces;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace MySongs.Services.Services
 {
     public class TagService : ITagService
     {
         private readonly ITagRepository _repository;
+        private readonly IMapper _mapper;
 
-        public TagService(ITagRepository repository)
+        public TagService(ITagRepository repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
 
-        public List<TagDto> GetAll()
+        public async Task<List<TagDto>> GetAll()
         {
-            return _repository.GetAll()
-                .Select(t => new TagDto
-                {
-                    TagId = t.TagId,
-                    TagName = t.TagName,
-                    TagType = t.TagType
-                }).ToList();
+            return _mapper.Map<List<TagDto>>(await _repository.GetAll());
         }
 
-        public void Add(TagDto tag)
+        public async Task Add(TagDto tag)
         {
-            _repository.Add(new Tag { TagName = tag.TagName, TagType = tag.TagType });
+            await _repository.Add(_mapper.Map<Tag>(tag));
         }
 
-        public TagDto GetOrCreate(string tagName)
+        public async Task<TagDto> GetOrCreate(string tagName)
         {
-            var tag = _repository.GetOrCreate(tagName);
-            return new TagDto { TagId = tag.TagId, TagName = tag.TagName, TagType = tag.TagType };
+            return _mapper.Map<TagDto>(await _repository.GetOrCreate(tagName));
         }
     }
 }

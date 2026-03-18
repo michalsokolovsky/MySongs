@@ -17,20 +17,17 @@ namespace MySongs.Api.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            return Ok(_tagService.GetAll());
+            return Ok(await _tagService.GetAll());
         }
 
         [HttpPost]
         [Authorize]
-        public IActionResult Add([FromBody] TagDto tag)
+        public async Task<IActionResult> Add([FromBody] TagDto tag)
         {
-            _tagService.Add(tag);
+            await _tagService.Add(tag);
             return Ok("התגית נוספה");
         }
-
-       
-        
     }
 }

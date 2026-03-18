@@ -1,7 +1,6 @@
-﻿using MySongs.Repository.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using MySongs.Repository.Entities;
 using MySongs.Repository.Interfaces;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace MySongs.Repository.Repositories
 {
@@ -14,17 +13,27 @@ namespace MySongs.Repository.Repositories
             _context = context;
         }
 
-        public List<Recommendation> GetByUserId(int userId)
+        public async Task<List<Recommendation>> GetByUserId(int userId)
         {
-            return _context.Recommendations
+            return await _context.Recommendations
                 .Where(r => r.UserId == userId)
-                .ToList();
+                .ToListAsync();
         }
 
-        public void Add(Recommendation recommendation)
+        public async Task Add(Recommendation recommendation)
         {
             _context.Recommendations.Add(recommendation);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
+        }
+        public async Task Delete(int recommendationId)
+        {
+            var rec = await _context.Recommendations
+                .FirstOrDefaultAsync(r => r.RecommendationId == recommendationId);
+            if (rec != null)
+            {
+                _context.Recommendations.Remove(rec);
+                await _context.SaveChangesAsync();
+            }
         }
     }
 }

@@ -15,62 +15,75 @@ namespace MySongs.Api.Controllers
         private readonly ISongTagService _songTagService;
         private readonly RecommendationEngineService _recommendationEngine;
         private readonly IConfiguration _configuration;
+        private readonly IAIService _aiService;
+
 
         public SongsController(
             ISongService songService,
             ITagService tagService,
             ISongTagService songTagService,
             RecommendationEngineService recommendationEngine,
-            IConfiguration configuration)
+            IConfiguration configuration,
+                IAIService aiService) 
+
         {
             _songService = songService;
             _tagService = tagService;
             _songTagService = songTagService;
             _recommendationEngine = recommendationEngine;
             _configuration = configuration;
+            _aiService = aiService;
         }
 
         [HttpGet]
-        public IActionResult GetAll() => Ok(_songService.GetAll());
+        public async Task<IActionResult> GetAll() => Ok(await _songService.GetAll());
 
         [HttpGet("{id}")]
-        public IActionResult GetById(int id)
+        public async Task<IActionResult> GetById(int id)
         {
-            var song = _songService.GetById(id);
+            var song = await _songService.GetById(id);
             if (song == null) return NotFound();
             return Ok(song);
         }
 
+        [HttpGet("search")]
+        public async Task<IActionResult> Search([FromQuery] string q)
+        {
+            if (string.IsNullOrWhiteSpace(q))
+                return Ok(await _songService.GetAll());
+            return Ok(await _songService.Search(q));
+        }
+
         [HttpPost]
         [Authorize]
-        public IActionResult Add([FromBody] SongDto song)
+        public async Task<IActionResult> Add([FromBody] SongDto song)
         {
-            _songService.Add(song);
+            await _songService.Add(song);
             return Ok("השיר נוסף");
         }
 
         [HttpPut("{id}")]
         [Authorize]
-        public IActionResult Update(int id, [FromBody] SongDto song)
+        public async Task<IActionResult> Update(int id, [FromBody] SongDto song)
         {
             song.SongId = id;
-            _songService.Update(song);
+            await _songService.Update(song);
             return Ok("השיר עודכן");
         }
 
         [HttpDelete("{id}")]
         [Authorize]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            _songService.Delete(id);
+            await _songService.Delete(id);
             return Ok("השיר נמחק");
         }
 
         [HttpGet("{id}/tags")]
-        public IActionResult GetSongTags(int id)
+        public async Task<IActionResult> GetSongTags(int id)
         {
-            var songTags = _songTagService.GetTagsBySongId(id);
-            var allTags = _tagService.GetAll();
+            var songTags = await _songTagService.GetTagsBySongId(id);
+            var allTags = await _tagService.GetAll();
             var tagNames = songTags
                 .Select(st => allTags.FirstOrDefault(t => t.TagId == st.TagId)?.TagName)
                 .Where(n => n != null)
@@ -85,6 +98,19 @@ namespace MySongs.Api.Controllers
             if (audioFile == null || audioFile.Length == 0)
                 return BadRequest("לא הועלה קובץ");
 
+            string fileHash;
+            using (var md5 = System.Security.Cryptography.MD5.Create())
+            {
+                using var hashStream = audioFile.OpenReadStream();
+                var hashBytes = await md5.ComputeHashAsync(hashStream);
+                fileHash = BitConverter.ToString(hashBytes).Replace("-", "").ToLower();
+            }
+
+            var allSongs = await _songService.GetAll();
+            var existingByHash = allSongs.FirstOrDefault(s => s.FileHash == fileHash);
+            if (existingByHash != null)
+                return Conflict($"השיר '{existingByHash.Title}' של {existingByHash.ArtistName} כבר קיים במאגר!");
+
             var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "audio");
             Directory.CreateDirectory(uploadsFolder);
 
@@ -97,35 +123,59 @@ namespace MySongs.Api.Controllers
             }
 
             var audioUrl = $"{Request.Scheme}://{Request.Host}/audio/{fileName}";
-            var apiKey = _configuration["OpenAI:ApiKey"]!;
-            var aiService = new AIService(apiKey);
-            var result = await aiService.AnalyzeSongMetadata(filePath);
+           
 
-            var song = new SongDto
+            try
             {
-                Title = result.Title,
-                ArtistName = artistName,
-                Genre = result.Genre,
-                LyricsSummary = result.Summary,
-                AudioUrl = audioUrl,
-                ReleaseDate = DateTime.Now
-            };
+                var result = await _aiService.AnalyzeSongMetadata(filePath);
 
-            _songService.Add(song);
-
-            var savedSong = _songService.GetAll()
-                .OrderByDescending(s => s.SongId)
-                .FirstOrDefault();
-
-            if (savedSong != null)
-            {
-                _ = Task.Run(async () =>
+                if (string.IsNullOrWhiteSpace(result.Title) ||
+                    result.Title.Length > 100 ||
+                    result.Title.Contains("Exception") ||
+                    result.Title.Contains("error") ||
+                    result.Title.Contains("Error") ||
+                    result.Title.Contains("Blocked") ||
+                    result.Title.Contains("stream") ||
+                    result.Title.Contains("copying") ||
+                    result.Title.Contains("418") ||
+                    result.Title.Contains("success:") ||
+                    result.Genre == null)
                 {
-                    await _recommendationEngine.UpdateRecommendationsForAllUsers(savedSong.SongId);
-                });
-            }
+                    System.IO.File.Delete(filePath);
+                    return BadRequest("שגיאה בניתוח השיר - ייתכן שאין חיבור לאינטרנט. נסי שוב.");
+                }
 
-            return Ok(savedSong);
+                var song = new SongDto
+                {
+                    Title = result.Title,
+                    ArtistName = artistName,
+                    Genre = result.Genre,
+                    LyricsSummary = result.Summary,
+                    AudioUrl = audioUrl,
+                    FileHash = fileHash,
+                    ReleaseDate = DateTime.Now
+                };
+
+                await _songService.Add(song);
+
+                var savedSongs = await _songService.GetAll();
+                var savedSong = savedSongs.OrderByDescending(s => s.SongId).FirstOrDefault();
+
+                if (savedSong != null)
+                {
+                    _ = Task.Run(async () =>
+                    {
+                        await _recommendationEngine.UpdateRecommendationsForAllUsers(savedSong.SongId);
+                    });
+                }
+
+                return Ok(savedSong);
+            }
+            catch (Exception ex)
+            {
+                System.IO.File.Delete(filePath);
+                return BadRequest($"שגיאה: {ex.Message}");
+            }
         }
     }
 }

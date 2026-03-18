@@ -1,43 +1,34 @@
-﻿using MySongs.Common.DTOs;
-using MySongs.Repository.Interfaces;
+﻿using AutoMapper;
+using MySongs.Common.DTOs;
 using MySongs.Repository.Entities;
+using MySongs.Repository.Interfaces;
 using MySongs.Services.Interfaces;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace MySongs.Services.Services
 {
     public class RecommendationService : IRecommendationService
     {
         private readonly IRecommendationRepository _repository;
+        private readonly IMapper _mapper;
 
-        public RecommendationService(IRecommendationRepository repository)
+        public RecommendationService(IRecommendationRepository repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
 
-        public List<RecommendationDto> GetByUserId(int userId)
+        public async Task<List<RecommendationDto>> GetByUserId(int userId)
         {
-            return _repository.GetByUserId(userId)
-                .Select(r => new RecommendationDto
-                {
-                    RecommendationId = r.RecommendationId,
-                    UserId = r.UserId,
-                    SongId = r.SongId,
-                    Score = r.Score,
-                    IsSeen = r.IsSeen
-                }).ToList();
+            return _mapper.Map<List<RecommendationDto>>(await _repository.GetByUserId(userId));
         }
 
-        public void Add(RecommendationDto recommendation)
+        public async Task Add(RecommendationDto recommendation)
         {
-            _repository.Add(new Recommendation
-            {
-                UserId = recommendation.UserId,
-                SongId = recommendation.SongId,
-                Score = recommendation.Score,
-                IsSeen = recommendation.IsSeen
-            });
+            await _repository.Add(_mapper.Map<Recommendation>(recommendation));
+        }
+        public async Task Delete(int recommendationId)
+        {
+            await _repository.Delete(recommendationId);
         }
     }
 }

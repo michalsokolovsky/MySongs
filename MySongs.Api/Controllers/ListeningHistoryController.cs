@@ -18,19 +18,18 @@ namespace MySongs.Api.Controllers
 
         [HttpGet("user/{userId}")]
         [Authorize]
-        public IActionResult GetByUser(int userId)
+        public async Task<IActionResult> GetByUser(int userId)
         {
-            var history = _listeningHistoryService.GetAll()
-                .Where(h => h.UserId == userId)
-                .ToList();
-            return Ok(history);
+            var history = await _listeningHistoryService.GetAll();
+            return Ok(history.Where(h => h.UserId == userId).ToList());
         }
 
         [HttpPost]
         [Authorize]
-        public IActionResult Add([FromBody] ListeningHistoryDto history)
+        public async Task<IActionResult> Add([FromBody] ListeningHistoryDto history)
         {
-            _listeningHistoryService.Add(history);
+            history.ListenDate = DateTime.Now; // ← הוסיפי את זה!
+            await _listeningHistoryService.Add(history);
             return Ok("ההאזנה נרשמה");
         }
     }

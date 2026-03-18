@@ -1,13 +1,15 @@
 {
   "version": 2,
-  "dgSpecHash": "xpkhbyKi/+k=",
+  "dgSpecHash": "lLIrKhmJZm4=",
   "success": true,
   "projectFilePath": "C:\\Users\\user1\\Downloads\\MySongs-updated\\MySongs-master\\MySongs.Services\\MySongs.Services.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\user1\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
+    "C:\\Users\\user1\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.1\\automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",
     "C:\\Users\\user1\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\user1\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",
     "C:\\Users\\user1\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\1.1.1\\microsoft.bcl.asyncinterfaces.1.1.1.nupkg.sha512",
-    "C:\\Users\\user1\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",
+    "C:\\Users\\user1\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
     "C:\\Users\\user1\\.nuget\\packages\\microsoft.data.sqlclient\\5.1.7\\microsoft.data.sqlclient.5.1.7.nupkg.sha512",
     "C:\\Users\\user1\\.nuget\\packages\\microsoft.data.sqlclient.sni.runtime\\5.1.2\\microsoft.data.sqlclient.sni.runtime.5.1.2.nupkg.sha512",
     "C:\\Users\\user1\\.nuget\\packages\\microsoft.entityframeworkcore\\8.0.24\\microsoft.entityframeworkcore.8.0.24.nupkg.sha512",

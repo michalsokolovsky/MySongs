@@ -1,12 +1,11 @@
 using MySongs.Common.DTOs;
-using System.Collections.Generic;
 
 namespace MySongs.Services.Interfaces
 {
     public interface ITagService
     {
-        List<TagDto> GetAll();
-        void Add(TagDto tag);
-        TagDto GetOrCreate(string tagName);
+        Task<List<TagDto>> GetAll();
+        Task Add(TagDto tag);
+        Task<TagDto> GetOrCreate(string tagName);
     }
 }

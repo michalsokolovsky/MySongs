@@ -15,3 +15,4 @@ C:\Users\user1\Downloads\MySongs-updated\MySongs-master\MySongs.Mock\obj\Debug\n
 C:\Users\user1\Downloads\MySongs-updated\MySongs-master\MySongs.Mock\obj\Debug\net8.0\refint\MySongs.Mock.dll
 C:\Users\user1\Downloads\MySongs-updated\MySongs-master\MySongs.Mock\obj\Debug\net8.0\MySongs.Mock.pdb
 C:\Users\user1\Downloads\MySongs-updated\MySongs-master\MySongs.Mock\obj\Debug\net8.0\ref\MySongs.Mock.dll
+C:\Users\user1\Downloads\MySongs-updated\MySongs-master\MySongs.Mock\obj\Debug\net8.0\MySongs.Mock.sourcelink.json

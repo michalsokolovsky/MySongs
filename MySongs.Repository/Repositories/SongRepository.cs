@@ -1,7 +1,6 @@
-﻿using MySongs.Repository.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using MySongs.Repository.Entities;
 using MySongs.Repository.Interfaces;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace MySongs.Repository.Repositories
 {
@@ -14,35 +13,35 @@ namespace MySongs.Repository.Repositories
             _context = context;
         }
 
-        public List<Songs> GetAll()
+        public async Task<List<Songs>> GetAll()
         {
-            return _context.Songs.ToList();
+            return await _context.Songs.ToListAsync();
         }
 
-        public Songs GetById(int id)
+        public async Task<Songs> GetById(int id)
         {
-            return _context.Songs.FirstOrDefault(s => s.SongId == id);
+            return await _context.Songs.FirstOrDefaultAsync(s => s.SongId == id);
         }
 
-        public void Add(Songs song)
+        public async Task Add(Songs song)
         {
             _context.Songs.Add(song);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public void Update(Songs song)
+        public async Task Update(Songs song)
         {
             _context.Songs.Update(song);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
-            var song = _context.Songs.FirstOrDefault(s => s.SongId == id);
+            var song = await _context.Songs.FirstOrDefaultAsync(s => s.SongId == id);
             if (song != null)
             {
                 _context.Songs.Remove(song);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
         }
     }

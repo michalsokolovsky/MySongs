@@ -15,3 +15,4 @@ C:\Users\user1\Downloads\MySongs-updated\MySongs-master\MySongs.Services\obj\Deb
 C:\Users\user1\Downloads\MySongs-updated\MySongs-master\MySongs.Services\obj\Debug\net8.0\refint\MySongs.Services.dll
 C:\Users\user1\Downloads\MySongs-updated\MySongs-master\MySongs.Services\obj\Debug\net8.0\MySongs.Services.pdb
 C:\Users\user1\Downloads\MySongs-updated\MySongs-master\MySongs.Services\obj\Debug\net8.0\ref\MySongs.Services.dll
+C:\Users\user1\Downloads\MySongs-updated\MySongs-master\MySongs.Services\obj\Debug\net8.0\MySongs.Services.sourcelink.json

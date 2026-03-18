@@ -1,7 +1,6 @@
-﻿using MySongs.Repository.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using MySongs.Repository.Entities;
 using MySongs.Repository.Interfaces;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace MySongs.Repository.Repositories
 {
@@ -14,15 +13,15 @@ namespace MySongs.Repository.Repositories
             _context = context;
         }
 
-        public List<ListeningHistory> GetAll()
+        public async Task<List<ListeningHistory>> GetAll()
         {
-            return _context.ListeningHistorys.ToList();
+            return await _context.ListeningHistorys.ToListAsync();
         }
 
-        public void Add(ListeningHistory history)
+        public async Task Add(ListeningHistory history)
         {
             _context.ListeningHistorys.Add(history);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
     }
 }

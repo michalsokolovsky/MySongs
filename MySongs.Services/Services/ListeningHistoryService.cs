@@ -1,43 +1,30 @@
-﻿using MySongs.Common.DTOs;
-using MySongs.Repository.Interfaces;
+﻿using AutoMapper;
+using MySongs.Common.DTOs;
 using MySongs.Repository.Entities;
+using MySongs.Repository.Interfaces;
 using MySongs.Services.Interfaces;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace MySongs.Services.Services
 {
     public class ListeningHistoryService : IListeningHistoryService
     {
         private readonly IListeningHistoryRepository _repository;
+        private readonly IMapper _mapper;
 
-        public ListeningHistoryService(IListeningHistoryRepository repository)
+        public ListeningHistoryService(IListeningHistoryRepository repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
 
-        public List<ListeningHistoryDto> GetAll()
+        public async Task<List<ListeningHistoryDto>> GetAll()
         {
-            return _repository.GetAll()
-                .Select(h => new ListeningHistoryDto
-                {
-                    HistoryId = h.HistoryId,
-                    UserId = h.UserId,
-                    SongId = h.SongId,
-                    ListenDate = h.ListenDate,
-                    Duration = h.Duration
-                }).ToList();
+            return _mapper.Map<List<ListeningHistoryDto>>(await _repository.GetAll());
         }
 
-        public void Add(ListeningHistoryDto history)
+        public async Task Add(ListeningHistoryDto history)
         {
-            _repository.Add(new ListeningHistory
-            {
-                UserId = history.UserId,
-                SongId = history.SongId,
-                ListenDate = history.ListenDate,
-                Duration = history.Duration
-            });
+            await _repository.Add(_mapper.Map<ListeningHistory>(history));
         }
     }
 }

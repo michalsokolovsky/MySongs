@@ -12,7 +12,7 @@ namespace MySongs.Api.Services
         public string Summary { get; set; } = "";
     }
 
-    public class AIService
+    public class AIService : IAIService
     {
         private readonly string _apiKey;
 
@@ -31,13 +31,7 @@ namespace MySongs.Api.Services
             }
             catch (Exception ex)
             {
-                return new SongAnalysisResult
-                {
-                    Title = "שגיאה בניתוח",
-                    Artist = "לא ידוע",
-                    Genre = "כללי",
-                    Summary = ex.Message
-                };
+                throw new Exception($"שגיאה בניתוח השיר: {ex.Message}");
             }
         }
 

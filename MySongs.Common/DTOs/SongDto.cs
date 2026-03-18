@@ -10,7 +10,8 @@
 
         public string? AudioUrl { get; set; }
 
-
         public string? LyricsSummary { get; set; }
+        public string? FileHash { get; set; }
+
     }
 }

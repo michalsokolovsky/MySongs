@@ -81,6 +81,22 @@
   },
   {
     "ContainingType": "MySongs.Api.Controllers.RecommendationsController",
+    "Method": "Generate",
+    "RelativePath": "api/Recommendations/generate/{userId}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MySongs.Api.Controllers.RecommendationsController",
     "Method": "GetByUser",
     "RelativePath": "api/Recommendations/user/{userId}",
     "HttpMethod": "GET",
@@ -186,6 +202,22 @@
         "Name": "id",
         "Type": "System.Int32",
         "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MySongs.Api.Controllers.SongsController",
+    "Method": "Search",
+    "RelativePath": "api/Songs/search",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "q",
+        "Type": "System.String",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []

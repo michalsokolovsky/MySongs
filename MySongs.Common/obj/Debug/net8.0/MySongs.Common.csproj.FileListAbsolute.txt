@@ -9,3 +9,4 @@ C:\Users\user1\Downloads\MySongs-updated\MySongs-master\MySongs.Common\obj\Debug
 C:\Users\user1\Downloads\MySongs-updated\MySongs-master\MySongs.Common\obj\Debug\net8.0\refint\MySongs.Common.dll
 C:\Users\user1\Downloads\MySongs-updated\MySongs-master\MySongs.Common\obj\Debug\net8.0\MySongs.Common.pdb
 C:\Users\user1\Downloads\MySongs-updated\MySongs-master\MySongs.Common\obj\Debug\net8.0\ref\MySongs.Common.dll
+C:\Users\user1\Downloads\MySongs-updated\MySongs-master\MySongs.Common\obj\Debug\net8.0\MySongs.Common.sourcelink.json

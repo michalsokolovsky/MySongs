@@ -1,7 +1,6 @@
+using Microsoft.EntityFrameworkCore;
 using MySongs.Repository.Entities;
 using MySongs.Repository.Interfaces;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace MySongs.Repository.Repositories
 {
@@ -14,25 +13,24 @@ namespace MySongs.Repository.Repositories
             _context = context;
         }
 
-        public List<Tag> GetAll()
+        public async Task<List<Tag>> GetAll()
         {
-            return _context.Tags.ToList();
+            return await _context.Tags.ToListAsync();
         }
 
-        public void Add(Tag tag)
+        public async Task Add(Tag tag)
         {
             _context.Tags.Add(tag);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public Tag GetOrCreate(string tagName)
+        public async Task<Tag> GetOrCreate(string tagName)
         {
-            var existing = _context.Tags.FirstOrDefault(t => t.TagName == tagName);
+            var existing = await _context.Tags.FirstOrDefaultAsync(t => t.TagName == tagName);
             if (existing != null) return existing;
-
             var newTag = new Tag { TagName = tagName };
             _context.Tags.Add(newTag);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return newTag;
         }
     }

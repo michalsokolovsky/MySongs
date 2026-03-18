@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using AutoMapper;
 using MySongs.Common.DTOs;
 using MySongs.Services.Interfaces;
 
@@ -10,42 +11,45 @@ namespace MySongs.Api.Controllers
     public class UsersController : ControllerBase
     {
         private readonly IUserService _userService;
+        private readonly IMapper _mapper;
 
-        public UsersController(IUserService userService)
+        public UsersController(IUserService userService, IMapper mapper)
         {
             _userService = userService;
+            _mapper = mapper;
         }
 
         [HttpGet]
         [Authorize]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            return Ok(_userService.GetAll());
+            var users = await _userService.GetAll();
+            return Ok(_mapper.Map<List<UserResponseDto>>(users));
         }
 
         [HttpGet("{id}")]
         [Authorize]
-        public IActionResult GetById(int id)
+        public async Task<IActionResult> GetById(int id)
         {
-            var user = _userService.GetById(id);
+            var user = await _userService.GetById(id);
             if (user == null) return NotFound();
-            return Ok(user);
+            return Ok(_mapper.Map<UserResponseDto>(user));
         }
 
         [HttpPut("{id}")]
         [Authorize]
-        public IActionResult Update(int id, [FromBody] UserDto user)
+        public async Task<IActionResult> Update(int id, [FromBody] UserDto user)
         {
             user.UserId = id;
-            _userService.Update(user);
+            await _userService.Update(user);
             return Ok("המשתמש עודכן");
         }
 
         [HttpDelete("{id}")]
         [Authorize]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            _userService.Delete(id);
+            await _userService.Delete(id);
             return Ok("המשתמש נמחק");
         }
     }

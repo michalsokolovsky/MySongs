@@ -1,14 +1,14 @@
 ﻿using MySongs.Common.DTOs;
-using System.Collections.Generic;
 
 namespace MySongs.Services.Interfaces
 {
     public interface ISongService
     {
-        List<SongDto> GetAll();
-        SongDto GetById(int id);
-        void Add(SongDto song);
-        void Update(SongDto song);
-        void Delete(int id);
+        Task<List<SongDto>> GetAll();
+        Task<SongDto> GetById(int id);
+        Task Add(SongDto song);
+        Task Update(SongDto song);
+        Task Delete(int id);
+        Task<List<SongDto>> Search(string query);
     }
 }

@@ -1,78 +1,60 @@
-﻿using MySongs.Common.DTOs;
-using MySongs.Repository.Interfaces;
+﻿using AutoMapper;
+using MySongs.Common.DTOs;
 using MySongs.Repository.Entities;
+using MySongs.Repository.Interfaces;
 using MySongs.Services.Interfaces;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace MySongs.Services.Services
 {
     public class SongService : ISongService
     {
         private readonly ISongRepository _repository;
+        private readonly IMapper _mapper;
 
-        public SongService(ISongRepository repository)
+        public SongService(ISongRepository repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
 
-        public List<SongDto> GetAll()
+        public async Task<List<SongDto>> GetAll()
         {
-            return _repository.GetAll()
-                .Select(s => new SongDto
-                {
-                    SongId = s.SongId,
-                    Title = s.Title,
-                    ArtistName = s.ArtistName,
-                    Genre = s.Genre,
-                    ReleaseDate = s.ReleaseDate,
-                    LyricsSummary = s.LyricsSummary
-                }).ToList();
+            return _mapper.Map<List<SongDto>>(await _repository.GetAll());
         }
 
-        public SongDto GetById(int id)
+        public async Task<SongDto> GetById(int id)
         {
-            var s = _repository.GetById(id);
-            if (s == null) return null;
-            return new SongDto
-            {
-                SongId = s.SongId,
-                Title = s.Title,
-                ArtistName = s.ArtistName,
-                Genre = s.Genre,
-                ReleaseDate = s.ReleaseDate,
-                LyricsSummary = s.LyricsSummary
-            };
+            var song = await _repository.GetById(id);
+            if (song == null) return null;
+            return _mapper.Map<SongDto>(song);
         }
 
-        public void Add(SongDto song)
+        public async Task Add(SongDto song)
         {
-            _repository.Add(new Songs
-            {
-                Title = song.Title,
-                ArtistName = song.ArtistName,
-                Genre = song.Genre,
-                ReleaseDate = song.ReleaseDate,
-                LyricsSummary = song.LyricsSummary
-            });
+            await _repository.Add(_mapper.Map<Songs>(song));
         }
 
-        public void Update(SongDto song)
+        public async Task Update(SongDto song)
         {
-            _repository.Update(new Songs
-            {
-                SongId = song.SongId,
-                Title = song.Title,
-                ArtistName = song.ArtistName,
-                Genre = song.Genre,
-                ReleaseDate = song.ReleaseDate,
-                LyricsSummary = song.LyricsSummary
-            });
+            await _repository.Update(_mapper.Map<Songs>(song));
         }
 
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
-            _repository.Delete(id);
+            await _repository.Delete(id);
+        }
+
+        public async Task<List<SongDto>> Search(string query)
+        {
+            var q = query.ToLower();
+            var all = await _repository.GetAll();
+            var results = all.Where(s =>
+                    s.Title.ToLower().Contains(q) ||
+                    s.ArtistName.ToLower().Contains(q) ||
+                    s.Genre.ToLower().Contains(q) ||
+                    (s.LyricsSummary != null && s.LyricsSummary.ToLower().Contains(q)))
+                .ToList();
+            return _mapper.Map<List<SongDto>>(results);
         }
     }
 }

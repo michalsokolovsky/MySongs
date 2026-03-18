@@ -144,6 +144,29 @@
         }
       }
     },
+    "/api/Recommendations/generate/{userId}": {
+      "post": {
+        "tags": [
+          "Recommendations"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Recommendations": {
       "post": {
         "tags": [
@@ -290,6 +313,27 @@
             "schema": {
               "type": "integer",
               "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Songs/search": {
+      "get": {
+        "tags": [
+          "Songs"
+        ],
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "schema": {
+              "type": "string"
             }
           }
         ],
@@ -586,6 +630,10 @@
           "lyricsSummary": {
             "type": "string",
             "nullable": true
+          },
+          "fileHash": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -636,6 +684,14 @@
           "createdAt": {
             "type": "string",
             "format": "date-time"
+          },
+          "password": {
+            "type": "string",
+            "nullable": true
+          },
+          "role": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false

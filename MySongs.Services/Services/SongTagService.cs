@@ -1,43 +1,35 @@
-﻿using MySongs.Common.DTOs;
-using MySongs.Repository.Interfaces;
+﻿using AutoMapper;
+using MySongs.Common.DTOs;
 using MySongs.Repository.Entities;
+using MySongs.Repository.Interfaces;
 using MySongs.Services.Interfaces;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace MySongs.Services.Services
 {
     public class SongTagService : ISongTagService
     {
         private readonly ISongTagRepository _repository;
+        private readonly IMapper _mapper;
 
-        public SongTagService(ISongTagRepository repository)
+        public SongTagService(ISongTagRepository repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
 
-        public List<SongTagDto> GetTagsBySongId(int songId)
+        public async Task<List<SongTagDto>> GetTagsBySongId(int songId)
         {
-            return _repository.GetTagsBySongId(songId)
-                .Select(st => new SongTagDto
-                {
-                    SongId = st.SongId,
-                    TagId = st.TagId
-                }).ToList();
+            return _mapper.Map<List<SongTagDto>>(await _repository.GetTagsBySongId(songId));
         }
 
-        public void Add(SongTagDto songTag)
+        public async Task Add(SongTagDto songTag)
         {
-            _repository.Add(new SongTag
-            {
-                SongId = songTag.SongId,
-                TagId = songTag.TagId
-            });
+            await _repository.Add(_mapper.Map<SongTag>(songTag));
         }
 
-        public void Delete(int songId, int tagId)
+        public async Task Delete(int songId, int tagId)
         {
-            _repository.Delete(songId, tagId);
+            await _repository.Delete(songId, tagId);
         }
     }
 }
