@@ -1,16 +1,26 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using MySongs.Api.Services;
 using MySongs.Mock;
 using MySongs.Repository.Interfaces;
 using MySongs.Repository.Repositories;
 using MySongs.Services.Interfaces;
 using MySongs.Services.Services;
-using MySongs.Api.Services;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.Configure<FormOptions>(options =>
+{
+    options.MultipartBodyLengthLimit = 104857600; // 100MB
+});
+
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.Limits.MaxRequestBodySize = 104857600; // 100MB
+});
 builder.Services.AddDbContext<MySongsDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 

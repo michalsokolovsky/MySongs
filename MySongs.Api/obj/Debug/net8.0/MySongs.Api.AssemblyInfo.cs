@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MySongs.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+124a936ff29b8439557ec9ab1d8885bd72837e4f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3a13ac0d0d9f93b50438783ae683361089293dff")]
 [assembly: System.Reflection.AssemblyProductAttribute("MySongs.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MySongs.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

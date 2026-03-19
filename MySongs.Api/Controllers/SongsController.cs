@@ -70,11 +70,30 @@ namespace MySongs.Api.Controllers
             await _songService.Update(song);
             return Ok("השיר עודכן");
         }
-
         [HttpDelete("{id}")]
         [Authorize]
         public async Task<IActionResult> Delete(int id)
         {
+            // שליפת השיר לפני המחיקה כדי לקבל את נתיב הקובץ
+            var song = await _songService.GetById(id);
+
+            if (song == null)
+                return NotFound("השיר לא נמצא");
+
+            // מחיקת קובץ האודיו מהשרת אם קיים
+            if (!string.IsNullOrEmpty(song.AudioUrl))
+            {
+                // חילוץ שם הקובץ מה-URL
+                var fileName = Path.GetFileName(new Uri(song.AudioUrl).LocalPath);
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "audio", fileName);
+
+                if (System.IO.File.Exists(filePath))
+                {
+                    System.IO.File.Delete(filePath);
+                }
+            }
+
+            // מחיקת השיר מה-DB
             await _songService.Delete(id);
             return Ok("השיר נמחק");
         }
